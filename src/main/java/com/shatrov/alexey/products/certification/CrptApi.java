@@ -203,6 +203,8 @@ public class CrptApi {
                 response = httpClient.execute(post);
                 httpClient.close();
 
+
+
                 return response.toString();
 
             } catch (IOException e) {
@@ -212,20 +214,13 @@ public class CrptApi {
     }
 
     public enum DocumentFormat { MANUAL, XML, CSV }
+
+    public enum CodeType { UITU, UIT }
+
     public enum DocType { 
         LP_INTRODUCE_GOODS, 
         LP_INTRODUCE_GOODS_CSV, 
         LP_INTRODUCE_GOODS_XML
-    }
-
-    public enum Code {
-        UITU(""), UIT("");
-
-        private String value;
-
-        Code(String value) { this.value = value; }
-
-        public String getValue() { return value; }
     }
 
     @Data
@@ -274,11 +269,13 @@ public class CrptApi {
         private String uitCode;
         private String uituCode;
 
-        public Product(String ownerInn, String producerInn, String productionDate, String tnvedCode, Code code) {
+        public Product(String ownerInn, String producerInn,
+                       String productionDate, String tnvedCode,
+                       CodeType type, String code) {
 
-            switch (code) {
-                case UITU -> this.uituCode = code.getValue();
-                case UIT -> this.uitCode = code.getValue();
+            switch (type) {
+                case UITU -> this.uituCode = code;
+                case UIT -> this.uitCode = code;
             }
 
             this.ownerInn = ownerInn;
